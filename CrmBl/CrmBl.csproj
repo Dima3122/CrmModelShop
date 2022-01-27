@@ -53,6 +53,7 @@
       <DependentUpon>202201270427483_Name.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Cart.cs" />
     <Compile Include="Model\Check.cs" />
     <Compile Include="Model\CrmContext.cs" />
     <Compile Include="Model\Customer.cs" />
