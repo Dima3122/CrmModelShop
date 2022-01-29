@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CrmBl.Model
 {
-    public class Cart: IEnumerable
+    public class Cart : IEnumerable
     {
         public List<Product> GetAll()
         {
@@ -20,6 +20,7 @@ namespace CrmBl.Model
         }
         public Customer customer { get; set; }
         public Dictionary<Product, int> products { get; set; }
+        public decimal Price => GetAll().Sum(p => p.Price);
         public Cart(Customer customer)
         {
             this.customer = customer;

@@ -26,17 +26,13 @@ namespace CrmUi
         {
             InitializeComponent();
         }
-        private void CustomerForm_Load(object sender, EventArgs e)
-        {
-            
-        }
+        private void CustomerForm_Load(object sender, EventArgs e) {}
         private void button1_Click(object sender, EventArgs e)
         {
-            var p = Product ?? new Product();
-            p.Name = textBox1.Text;
-            p.Count = Convert.ToInt32(numericUpDown2.Value);
-            p.Price = numericUpDown1.Value;
-            Product = p;
+            Product = Product ?? new Product();
+            Product.Name = textBox1.Text;
+            Product.Count = Convert.ToInt32(numericUpDown2.Value);
+            Product.Price = numericUpDown1.Value;           
             Close();
         }
     }

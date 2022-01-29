@@ -25,10 +25,7 @@ namespace CrmUi
             set.Load();
             dataGridView.DataSource = set.Local.ToBindingList();
         }
-        private void Catalog_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void Catalog_Load(object sender, EventArgs e) { }
         private void button2_Click(object sender, EventArgs e)//добавление
         {
             if (typeof(T) == typeof(Product))
@@ -107,7 +104,25 @@ namespace CrmUi
         }
         private void button3_Click(object sender, EventArgs e)//удаление
         {
-
+            var id = dataGridView.SelectedRows[0].Cells[0].Value;
+            if (typeof(T) == typeof(Product))
+            {
+                var product = set.Find(id) as Product;
+                db.Products.Remove(product);
+                db.SaveChanges();
+            }
+            else if (typeof(T) == typeof(Seller))
+            {
+                var Seller = set.Find(id) as Seller;
+                db.Sellers.Remove(Seller);
+                db.SaveChanges();
+            }
+            else if (typeof(T) == typeof(Customer))
+            {
+                var Customer = set.Find(id) as Customer;
+                db.Customers.Remove(Customer);
+                db.SaveChanges();
+            }
         }
     }
 }

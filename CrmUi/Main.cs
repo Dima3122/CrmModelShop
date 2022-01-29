@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using CrmBl;
 using CrmBl.Model;
 
 namespace CrmUi
@@ -7,10 +10,18 @@ namespace CrmUi
     public partial class Main : Form
     {
         CrmContext db;
+        Cart Cart;
+        Customer Customer;
+        CashDesk cashDesk;
         public Main()
         {
             InitializeComponent();
             db = new CrmContext();
+            Cart = new Cart(Customer);
+            cashDesk = new CashDesk(1, db.Sellers.FirstOrDefault(),db)
+            {
+                IsModel = false
+            };
         }
         private void ProductToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -58,6 +69,75 @@ namespace CrmUi
             {
                 db.Products.Add(form.Product);
                 db.SaveChanges();
+            }
+        }
+
+        private void modelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var modelform = new Model();
+            modelform.Show();
+        }
+        private void Main_Load(object sender, EventArgs e)
+        {
+            listBox1.Invoke((Action)delegate
+            {
+                listBox1.Items.AddRange(db.Products.ToArray());
+                listBox2.Items.AddRange(Cart.GetAll().ToArray());
+            });
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem is Product product)
+            {
+                Cart.Add(product);
+                listBox2.Items.Add(product);
+            }
+            Update_lists();
+        }
+        private void Update_lists()
+        {
+            listBox2.Items.Clear();
+            listBox2.Items.AddRange(Cart.GetAll().ToArray());
+            label1.Text = "Итого: " + Cart.Price;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            var form = new login();
+            form.ShowDialog();
+            if (form.DialogResult == DialogResult.OK)
+            {
+                var tempCustomer = db.Customers.FirstOrDefault(c => c.Name.Equals(form.Customer.Name));
+                if (tempCustomer != null)
+                {
+                    Customer = tempCustomer;
+                    Cart.customer = Customer;
+                }
+                else
+                {
+                    db.Customers.Add(form.Customer);
+                    db.SaveChanges();
+                    Customer = form.Customer;
+                    Cart.customer = form.Customer;
+                }
+            }
+            label2.Text = $"Здравствуй, {Customer.Name}";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (Customer != null)
+            {
+                cashDesk.AddQueue(Cart);
+                cashDesk.Dequeue();
+                listBox2.Items.Clear();
+                label1.Text = "Итого: " + 0;
+                MessageBox.Show("Покупка выполнена успешно");
+            }
+            else
+            {
+                MessageBox.Show("Авторизуйся!!!");
             }
         }
     }

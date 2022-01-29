@@ -8,20 +8,24 @@ namespace CrmBl.Model
 {
     public class CashDesk
     {
-        CrmContext db = new CrmContext();
+        CrmContext db;
         public Seller Seller { get; set; }
         public Queue<Cart> Queue { get; set; }
+        public int Count => Queue.Count;
         public int Number { get; set; }
         public int MaxQueueLenght { get; set; }
         public int ExitCustomer { get; set; }
         public bool IsModel { get; set; }
-        public CashDesk(int number, Seller seller)
+        
+        public event EventHandler<Check> CheckClosed;
+        public CashDesk(int number, Seller seller, CrmContext crmContext)
         {
             Number = number;
             Seller = seller;
             Queue = new Queue<Cart>();
             IsModel = true;
-            MaxQueueLenght = 5;
+            MaxQueueLenght = 10;
+            db = crmContext;
         }
         public void AddQueue(Cart cart)
         {
@@ -82,12 +86,18 @@ namespace CrmBl.Model
                         sum += product.Price;
                     }
                 }
+                check.Price = sum;
                 if (!IsModel)
                 {  
                     db.SaveChanges();
                 }
+                CheckClosed?.Invoke(this, check);
             }
             return sum;
+        }
+        public override string ToString()
+        {
+            return "Касса№" + Number;
         }
     }
 }

@@ -13,8 +13,8 @@ namespace CrmBl.Model
 
         public override string ToString()
         {
-            return Name;
-        }
+            return Name + " " + Price;
+        } 
         public override int GetHashCode()
         {
             return ProductId;
