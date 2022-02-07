@@ -66,7 +66,7 @@
             this.customerToolStripMenuItem,
             this.checkToolStripMenuItem});
             this.сущностиToolStripMenuItem.Name = "сущностиToolStripMenuItem";
-            this.сущностиToolStripMenuItem.Size = new System.Drawing.Size(91, 26);
+            this.сущностиToolStripMenuItem.Size = new System.Drawing.Size(91, 24);
             this.сущностиToolStripMenuItem.Text = "Сущности";
             // 
             // productToolStripMenuItem
@@ -127,7 +127,7 @@
             // modelToolStripMenuItem
             // 
             this.modelToolStripMenuItem.Name = "modelToolStripMenuItem";
-            this.modelToolStripMenuItem.Size = new System.Drawing.Size(138, 26);
+            this.modelToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.modelToolStripMenuItem.Text = "Моделирование";
             this.modelToolStripMenuItem.Click += new System.EventHandler(this.modelToolStripMenuItem_Click);
             // 
@@ -149,6 +149,7 @@
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(246, 356);
             this.listBox2.TabIndex = 2;
+            this.listBox2.DoubleClick += new System.EventHandler(this.listBox2_DoubleClick);
             // 
             // label1
             // 

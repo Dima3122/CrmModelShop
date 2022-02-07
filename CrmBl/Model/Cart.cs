@@ -37,6 +37,20 @@ namespace CrmBl.Model
                 products.Add(product, 1);
             }
         }
+        public void Remove(Product product)
+        {
+            if (products.TryGetValue(product,out int count))
+            {
+                if(products[product] == 1)
+                {
+                    products.Remove(product);
+                }
+                else if(products[product] > 1)
+                {
+                    products[product] = --count; 
+                }
+            }
+        }
         public IEnumerator GetEnumerator()
         {
             foreach (var product in products.Keys)

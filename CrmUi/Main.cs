@@ -140,5 +140,15 @@ namespace CrmUi
                 MessageBox.Show("Авторизуйся!!!");
             }
         }
+
+        private void listBox2_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem is Product product)
+            {
+                Cart.Remove(product);
+                listBox2.Items.Remove(product);
+            }
+            Update_lists();
+        }
     }
 }
